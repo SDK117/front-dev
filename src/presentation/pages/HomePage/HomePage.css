@@ -1,0 +1,65 @@
+.home-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.auth-buttons-container {
+    display: flex;
+    justify-content: center; /* Alinea horizontalmente en el centro */
+    align-items: center; /* Alinea verticalmente en el centro */
+    padding: 20px;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+h2 {
+    color: #FF9800;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #FFF5E6;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+footer {
+    background-color: #FF9800;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+}
+
+/* Estilos adicionales para el Header y Footer */
+.header {
+    background-color: #FF9800;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer {
+    background-color: #FF9800;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+}
