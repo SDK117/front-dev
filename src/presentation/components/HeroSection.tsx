@@ -7,6 +7,25 @@ const images = [
   'https://page-images.websim.ai/Delicioso%20pollo%20a%20la%20brasa_1024x268xKqTTNAiPyNwuqGLh6x594885739accd.jpg'
 ];
 
+const texts = [
+  {
+    title: 'Bienvenidos a Pollería Hilda',
+    description: 'El mejor pollo a la brasa de la ciudad'
+  },
+  {
+    title: 'Variedad de Platos',
+    description: 'Disfruta de una amplia selección de deliciosos platos'
+  },
+  {
+    title: 'Ambiente Acogedor',
+    description: 'Relájate en nuestro agradable ambiente familiar'
+  },
+  {
+    title: 'Sabor Inigualable',
+    description: 'Prueba nuestro famoso pollo a la brasa con el mejor sabor'
+  }
+];
+
 const HeroSection: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -14,10 +33,9 @@ const HeroSection: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % images.length);
-    }, 5000); // Cambia la imagen cada 5 segundos
+    }, 5000); // Cambia la imagen y el texto cada 5 segundos
 
-    // Limpia el intervalo cuando el componente se desmonte
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Limpia el intervalo al desmontar el componente
   }, []);
 
   const nextSlide = () => {
@@ -31,6 +49,7 @@ const HeroSection: React.FC = () => {
   return (
     <section className="relative bg-yellow-500 text-white py-2">
       <div className="relative w-full h-96 overflow-hidden group">
+        {/* Imagenes */}
         <div className="absolute inset-0 w-full h-full">
           {images.map((image, index) => (
             <img
@@ -42,13 +61,17 @@ const HeroSection: React.FC = () => {
             />
           ))}
         </div>
+
+        {/* Texto superpuesto */}
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Bienvenidos a Pollería Hilda</h1>
-            <p className="text-xl mb-8">El mejor pollo a la brasa de la ciudad</p>
+          <div className="container mx-auto px-4 text-center transition-opacity duration-1000 ease-in-out">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">{texts[currentSlide].title}</h1>
+            <p className="text-xl mb-8">{texts[currentSlide].description}</p>
             <a href="/menu" className="bg-white text-yellow-600 font-bold py-2 px-6 rounded-full text-lg hover:bg-yellow-100 transition duration-300">Ver Menú</a>
           </div>
         </div>
+
+        {/* Botones de navegación */}
         <button
           onClick={prevSlide}
           className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 text-yellow-600 p-2 rounded-full hover:bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -58,6 +81,7 @@ const HeroSection: React.FC = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
+
         <button
           onClick={nextSlide}
           className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-50 text-yellow-600 p-2 rounded-full hover:bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
