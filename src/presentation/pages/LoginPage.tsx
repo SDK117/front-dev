@@ -1,8 +1,10 @@
 import React from 'react';
+import Login from '../components/Login.tsx'; // Asegúrate de que la ruta sea correcta
+
 
 const LoginPage: React.FC = () => (
   <div>
-    <h1>Login Page</h1>
+    <Login />;
   </div>
 );
 

@@ -8,6 +8,7 @@ import PromotionsPage from './presentation/pages/PromotionsPage.tsx';
 import LocationsPage from './presentation/pages/LocationsPage.tsx';
 import ContactPage from './presentation/pages/ContactPage.tsx';
 import HeroSection from './presentation/components/HeroSection.tsx';
+import RegisterPage from './presentation/pages/RegisterPage.tsx';
 
 
 
@@ -22,11 +23,8 @@ const App: React.FC = () => (
       <Route path="/promotions" element={<PromotionsPage/>}/>
       <Route path="/locations" element={<LocationsPage/>}/>
       <Route path="/contact" element={<ContactPage/>}/>
-
-
-
-
-    </Routes>
+      <Route path="/register" element={<RegisterPage/>}/>
+      </Routes>
     </MainLayout>
   </Router>
 );

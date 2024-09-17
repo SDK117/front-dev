@@ -1,8 +1,9 @@
 import React from 'react';
+import Register from '../components/Register.tsx';
 
 const RegisterPage: React.FC = () => (
   <div>
-    <h1>Register Page</h1>
+    <Register/>
   </div>
 );
 

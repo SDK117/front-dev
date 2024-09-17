@@ -40,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, toggleSearchModal })
             Buscar
           </button>
           <a href="/login" className="block bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded text-center">Iniciar Sesión</a>
-          <a href="/registro" className="block bg-yellow-700 hover:bg-yellow-800 px-4 py-2 rounded text-center">Registrarse</a>
+          <a href="/register" className="block bg-yellow-700 hover:bg-yellow-800 px-4 py-2 rounded text-center">Registrarse</a>
         </div>
       </div>
     </>

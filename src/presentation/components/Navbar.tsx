@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
               </svg>
             </button>
             <Link to="/login" className="bg-yellow-500 hover:bg-yellow-400 px-3 py-1 rounded">Iniciar Sesión</Link>
-            <Link to="/registro" className="bg-yellow-700 hover:bg-yellow-600 px-3 py-1 rounded">Registrarse</Link>
+            <Link to="/register" className="bg-yellow-700 hover:bg-yellow-600 px-3 py-1 rounded">Registrarse</Link>
           </div>
           <div className="flex items-center space-x-4 md:hidden">
             <button onClick={toggleSidebar}>
