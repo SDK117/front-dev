@@ -9,21 +9,21 @@ import LocationsPage from './presentation/pages/LocationsPage.tsx';
 import ContactPage from './presentation/pages/ContactPage.tsx';
 import HeroSection from './presentation/components/HeroSection.tsx';
 import RegisterPage from './presentation/pages/RegisterPage.tsx';
-
-
+import Dashboard from './presentation/pages/Dashboard.tsx';
 
 const App: React.FC = () => (
   <Router>
     <MainLayout>
       <HeroSection />
       <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/menu" element={<MenuPage/>}/>
-      <Route path="/promotions" element={<PromotionsPage/>}/>
-      <Route path="/locations" element={<LocationsPage/>}/>
-      <Route path="/contact" element={<ContactPage/>}/>
-      <Route path="/register" element={<RegisterPage/>}/>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/menu" element={<MenuPage />} />
+        <Route path="/promotions" element={<PromotionsPage />} />
+        <Route path="/locations" element={<LocationsPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </MainLayout>
   </Router>
