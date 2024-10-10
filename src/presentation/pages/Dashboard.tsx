@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from 'react';
 import { AuthUseCases } from '../../application/useCases/AuthUseCases';
 import { AuthService } from '../../application/services/AuthService';
@@ -36,7 +38,14 @@ const Dashboard: React.FC = () => {
     <div>
       <h1>Bienvenido, {user.name}</h1>
       <p>Email: {user.email}</p>
-      <p>Roles: {user.roles.map((role) => role.name).join(', ')}</p>
+      <h2>Roles</h2>
+      <p>{user.roles.map((role) => role.name).join(', ')}</p>
+      <h2>Permisos</h2>
+      <ul>
+        {user.roles.flatMap((role) => role.permissions || []).map((permission) => (
+          <li key={permission.id}>{permission.name}</li>
+        ))}
+      </ul>
     </div>
   );
 };
