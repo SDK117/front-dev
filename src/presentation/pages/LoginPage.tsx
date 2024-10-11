@@ -1,30 +1,28 @@
 import React, { useState } from 'react';
-import { AuthUseCases } from '../../application/useCases/AuthUseCases';
-import { AuthService } from '../../application/services/AuthService';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const authUseCases = new AuthUseCases(new AuthService());
-
 const LoginPage: React.FC = () => {
+  const { login, error } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const result = await authUseCases.login(email, password);
+      const result = await login(email, password); // Llama a la función login del contexto
       console.log('Inicio de sesión exitoso', result);
 
+      // Guardar el token en localStorage
       if (result.token) {
         localStorage.setItem('token', result.token);
       }
       navigate('/dashboard');
     } catch (error) {
       console.error('Error al iniciar sesión', error);
-      setError('Credenciales inválidas. Inténtalo de nuevo.');
+      // Aquí ya no necesitas manejar el error, ya que se gestiona en el contexto
     }
   };
 

@@ -8,9 +8,14 @@ export class AuthUseCases {
     this.authService = authService;
   }
 
-  async login(email: string, password: string): Promise<User> {
+  async login(email: string, password: string): Promise<{ token: string }> {
     const response = await this.authService.login(email, password);
-    return response;
+    // Asegúrate de que el token esté definido
+    if (response.token === undefined) {
+      throw new Error('No se recibió un token');
+    }
+
+    return { token: response.token };
   }
 
   async getAuthenticatedUser(): Promise<User> {
