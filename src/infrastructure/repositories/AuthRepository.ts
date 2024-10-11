@@ -1,6 +1,6 @@
 import axiosInstance from '../api/axiosInstance';
 import { IAuthRepository } from '../../domain/repositories/IAuthRepository';
-import { User } from '../../domain/models/User';
+import { User } from '../../domain/models';
 
 export class AuthRepository implements IAuthRepository {
   async login(email: string, password: string): Promise<User> {
@@ -13,7 +13,7 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async getAuthenticatedUser(): Promise<User> {
-    const response = await axiosInstance.get('/user');
+    const response = await axiosInstance.get('/profile');
     return response.data;
   }
 }

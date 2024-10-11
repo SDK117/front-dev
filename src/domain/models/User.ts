@@ -1,17 +1,5 @@
+/*import { Role } from './Role';
 
-// src/domain/models/Role.ts
-export interface Permission {
-  id: number;
-  name: string;
-}
-
-export interface Role {
-  id: number;
-  name: string;
-  permissions?: Permission[]; // Añadir esta línea
-}
-
-// src/domain/models/User.ts
 export interface User {
   id: number;
   name: string;
@@ -20,6 +8,18 @@ export interface User {
   updated_at: string;
   roles: Role[];
   token?: string;
-  permissions?: Permission[]; // Esto se puede eliminar si no es necesario
-}
+}*/
 
+// src/domain/models/User.ts
+import { Role, Permission } from './index';
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  email_verified_at: string | null;
+  created_at: string;
+  updated_at: string;
+  roles: Role[];
+  permissions: Permission[];
+}
