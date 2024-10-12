@@ -1,4 +1,3 @@
-// src/domain/models/Role.ts
 import { Permission } from './index';
 
 export interface Role {

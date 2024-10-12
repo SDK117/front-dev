@@ -4,16 +4,21 @@ import { User } from '../../domain/models';
 
 export class AuthRepository implements IAuthRepository {
   async login(email: string, password: string): Promise<User> {
-    const response = await axiosInstance.post('/login', { email, password });
-    return response.data;
+    try {
+      const response = await axiosInstance.post('/login', { email, password });
+      return response.data;
+    } catch (error) {
+      console.error('Error en login:', error);
+      throw new Error('Error en la autenticación');
+    }
   }
 
   async logout() {
-    await axiosInstance.post('/logout');
-  }
-
-  async getAuthenticatedUser(): Promise<User> {
-    const response = await axiosInstance.get('/profile');
-    return response.data;
+    try {
+      await axiosInstance.post('/logout');
+    } catch (error) {
+      console.error('Error en logout:', error);
+      throw new Error('Error al cerrar sesión');
+    }
   }
 }

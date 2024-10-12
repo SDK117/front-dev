@@ -1,4 +1,3 @@
-// src/domain/models/Permission.ts
 export interface Permission {
   id: number;
   name: string;

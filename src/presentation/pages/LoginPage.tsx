@@ -1,28 +1,35 @@
+//import { Transition } from '@headlessui/react';
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { AuthService } from '../../application/services/AuthService';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
-  const { login, error } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState(false);
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
+  const [loading, setLoading] = useState(false); // Estado de carga
+  const [remember, setRemember] = useState(false); // Estado para el checkbox "Recordarme"
   const navigate = useNavigate();
+  const authService = new AuthService(); // Instancia única
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const result = await login(email, password); // Llama a la función login del contexto
-      console.log('Inicio de sesión exitoso', result);
+    setLoading(true);
+    setError('');
+    setSuccessMessage(''); // Reinicia el mensaje de éxito
 
-      // Guardar el token en localStorage
-      if (result.token) {
-        localStorage.setItem('token', result.token);
-      }
-      navigate('/dashboard');
+    try {
+      await authService.login(email, password);
+      setSuccessMessage('Inicio de sesión exitoso.'); // Mensaje de éxito
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000); // Espera 2 segundos antes de redirigir
     } catch (error) {
-      console.error('Error al iniciar sesión', error);
-      // Aquí ya no necesitas manejar el error, ya que se gestiona en el contexto
+      console.error(error);
+      setError('Error en el inicio de sesión. Verifica tus credenciales.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,6 +37,7 @@ const LoginPage: React.FC = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
         <div className="flex flex-col md:flex-row">
+          {/* Sección de login */}
           <div className="w-full md:w-1/2 pr-0 md:pr-8">
             <h1 className="text-3xl font-bold text-yellow-800 mb-6">Iniciar Sesión</h1>
             <form id="loginForm" className="space-y-4" onSubmit={handleSubmit}>
@@ -80,24 +88,36 @@ const LoginPage: React.FC = () => {
                 </a>
               </div>
               {error && <p className="text-red-500">{error}</p>} {/* Muestra el error si existe */}
+              {successMessage && (
+                <p className="text-green-500">{successMessage}</p> // Muestra el mensaje de éxito si existe
+              )}
               <div>
                 <button
                   type="submit"
-                  className="w-full bg-yellow-600 text-white font-bold py-2 px-4 rounded-md hover:bg-yellow-700 transition duration-300"
+                  className={`w-full bg-yellow-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 
+                    ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-yellow-700'}`}
+                  disabled={loading} // Deshabilita el botón si está cargando
                 >
-                  Iniciar Sesión
+                  {loading ? 'Iniciando...' : 'Iniciar Sesión'} {/* Muestra un texto diferente si está cargando */}
                 </button>
               </div>
             </form>
           </div>
 
+          {/* Sección de otras opciones */}
           <div className="w-full md:w-1/2 mt-8 md:mt-0 pl-0 md:pl-8 border-t md:border-t-0 md:border-l border-gray-300 pt-8 md:pt-0">
             <h2 className="text-2xl font-bold text-yellow-800 mb-6">Otras opciones</h2>
             <div className="space-y-4">
-              <button className="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+              <button
+                className="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                onClick={() => console.log('Iniciar sesión con Google')}
+              >
                 <i className="fab fa-google mr-2"></i> Iniciar sesión con Google
               </button>
-              <button className="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+              <button
+                className="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                onClick={() => console.log('Iniciar sesión con Facebook')}
+              >
                 <i className="fab fa-facebook mr-2"></i> Iniciar sesión con Facebook
               </button>
             </div>

@@ -1,64 +1,67 @@
+// src/presentation/Dashboard.tsx
 import React, { useEffect, useState } from 'react';
-import { AuthUseCases } from '../../application/useCases/AuthUseCases';
-import { AuthService } from '../../application/services/AuthService';
-import { User, Permission, Role } from '../../domain/models';
-
-const authUseCases = new AuthUseCases(new AuthService());
+import { ProfileService } from '../../application/services/ProfileService';
+import { User } from '../../domain/models';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchProfile = async () => {
+      const profileService = new ProfileService();
       try {
-        const authenticatedUser = await authUseCases.getAuthenticatedUser();
-        setUser(authenticatedUser);
-      } catch (error) {
-        setError('Error al obtener el usuario autenticado');
-        console.error('Error al obtener el usuario autenticado', error);
-      } finally {
-        setLoading(false);
+        const userProfile = await profileService.getProfile();
+        setUser(userProfile);
+      } catch (err) {
+        console.error('Error al obtener el perfil:', err);
+        setError('Error al obtener el perfil. Redirigiendo al inicio.');
+        navigate('/'); // Redirige al login si hay un error
       }
     };
 
-    fetchUser();
-  }, []);
-
-  if (loading) {
-    return <p>Cargando...</p>;
-  }
+    fetchProfile();
+  }, [navigate]);
 
   if (error) {
-    return <p>{error}</p>;
-  }
-
-  if (!user) {
-    return <p>No se ha encontrado información del usuario.</p>;
+    return <div>{error}</div>; // Muestra el mensaje de error si existe
   }
 
   return (
     <div>
-      <h1>Bienvenido, {user.name}</h1>
-      <p>Email: {user.email}</p>
+      <h1>Dashboard</h1>
+      {user ? (
+        <div>
+          <p>ID: {user.id}</p>
+          <p>Nombre: {user.name}</p>
+          <p>Email: {user.email}</p>
+          <h2>Roles</h2>
+          <ul>
+            {user.roles && user.roles.length > 0 ? (
+              user.roles.map((role) => (
+                <li key={role.id}>{role.name}</li>
+              ))
+            ) : (
+              <li>No hay roles asignados</li>
+            )}
+          </ul>
 
-      <h2>Roles</h2>
-      <p>{user.roles.length > 0 ? user.roles.map((role: Role) => role.name).join(', ') : 'No tiene roles asignados.'}</p>
-
-      <h2>Permisos Globales</h2>
-      <ul>
-        {user.permissions?.map((permission: Permission) => (
-          <li key={permission.id}>{permission.name}</li>
-        ))}
-      </ul>
-
-      <h2>Permisos por Rol</h2>
-      <ul>
-        {user.roles.flatMap((role: Role) => role.permissions || []).map((permission: Permission) => (
-          <li key={permission.id}>{permission.name}</li>
-        ))}
-      </ul>
+          <h2>Permisos</h2>
+          <ul>
+            {user.permissions && user.permissions.length > 0 ? (
+              user.permissions.map((permission) => (
+                <li key={permission.id}>{permission.name}</li>
+              ))
+            ) : (
+              <li>No hay permisos asignados</li>
+            )}
+          </ul>
+        </div>
+      ) : (
+        <p>Cargando perfil...</p>
+      )}
     </div>
   );
 };
