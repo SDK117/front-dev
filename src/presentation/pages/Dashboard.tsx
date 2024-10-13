@@ -7,7 +7,6 @@ const Dashboard: React.FC = () => {
   const handleShowProfile = () => {
     setShowProfile(true);
   };
-
   const handleCloseProfile = () => {
     setShowProfile(false);
   };
