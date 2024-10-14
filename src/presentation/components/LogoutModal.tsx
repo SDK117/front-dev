@@ -7,7 +7,12 @@ interface LogoutModalProps {
   logoutSuccess: boolean;
 }
 
-const LogoutModal: React.FC<LogoutModalProps> = ({ isOpen, onClose, onLogout, logoutSuccess }) => {
+const LogoutModal: React.FC<LogoutModalProps> = ({
+  isOpen,
+  onClose,
+  onLogout,
+  logoutSuccess,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
@@ -37,14 +42,23 @@ const LogoutModal: React.FC<LogoutModalProps> = ({ isOpen, onClose, onLogout, lo
                 d="M9 12l2 2 4-4m5 2a9 9 0 11-9-9 9 9 0 019 9z"
               ></path>
             </svg>
-            <h2 className="text-lg font-semibold text-green-600 mt-4">¡Sesión cerrada exitosamente!</h2>
+            <h2 className="text-lg font-semibold text-green-600 mt-4">
+              ¡Sesión cerrada exitosamente!
+            </h2>
           </div>
         ) : (
           <div>
-            <h2 className="text-lg font-semibold text-center mb-4">¿Seguro que deseas cerrar sesión?</h2>
+            <h2 className="text-lg font-semibold text-center mb-4">
+              ¿Seguro que deseas cerrar sesión?
+            </h2>
             {isLoading ? (
               <div className="flex justify-center mb-4">
-                <svg className="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg
+                  className="animate-spin h-8 w-8 text-blue-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
                   <circle
                     className="opacity-25"
                     cx="12"
