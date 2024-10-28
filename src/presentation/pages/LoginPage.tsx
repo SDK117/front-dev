@@ -1,4 +1,3 @@
-//import { Transition } from '@headlessui/react';
 import React, { useState } from 'react';
 import { AuthService } from '../../application/services/AuthService';
 import { useNavigate } from 'react-router-dom';
@@ -7,24 +6,30 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
-  const [loading, setLoading] = useState(false); // Estado de carga
-  const [remember, setRemember] = useState(false); // Estado para el checkbox "Recordarme"
+  const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [remember, setRemember] = useState(false);
   const navigate = useNavigate();
-  const authService = new AuthService(); // Instancia única
+  const authService = new AuthService();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccessMessage(''); // Reinicia el mensaje de éxito
+    setSuccessMessage('');
 
     try {
-      await authService.login(email, password);
-      setSuccessMessage('Inicio de sesión exitoso.'); // Mensaje de éxito
+      const { roles } = await authService.login(email, password);
+      setSuccessMessage('Inicio de sesión exitoso.');
       setTimeout(() => {
-        navigate('/dashboard');
-      }, 2000); // Espera 2 segundos antes de redirigir
+        if (roles.includes('admin')) {
+          navigate('/dashboard/admin');
+        } else if (roles.includes('user')) {
+          navigate('/dashboard/user');
+        } else {
+          navigate('/');
+        }
+      }, 2000);
     } catch (error) {
       console.error(error);
       setError('Error en el inicio de sesión. Verifica tus credenciales.');
@@ -37,12 +42,16 @@ const LoginPage: React.FC = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
         <div className="flex flex-col md:flex-row">
-          {/* Sección de login */}
           <div className="w-full md:w-1/2 pr-0 md:pr-8">
-            <h1 className="text-3xl font-bold text-yellow-800 mb-6">Iniciar Sesión</h1>
+            <h1 className="text-3xl font-bold text-yellow-800 mb-6">
+              Iniciar Sesión
+            </h1>
             <form id="loginForm" className="space-y-4" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 font-bold mb-2"
+                >
                   Correo electrónico
                 </label>
                 <input
@@ -56,7 +65,10 @@ const LoginPage: React.FC = () => {
                 />
               </div>
               <div>
-                <label htmlFor="password" className="block text-gray-700 font-bold mb-2">
+                <label
+                  htmlFor="password"
+                  className="block text-gray-700 font-bold mb-2"
+                >
                   Contraseña
                 </label>
                 <input
@@ -79,15 +91,21 @@ const LoginPage: React.FC = () => {
                     onChange={() => setRemember(!remember)}
                     className="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded"
                   />
-                  <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
+                  <label
+                    htmlFor="remember"
+                    className="ml-2 block text-sm text-gray-700"
+                  >
                     Recordarme
                   </label>
                 </div>
-                <a href="/recuperar-contrasena" className="text-sm text-yellow-600 hover:text-yellow-800">
+                <a
+                  href="/recuperar-contrasena"
+                  className="text-sm text-yellow-600 hover:text-yellow-800"
+                >
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>
-              {error && <p className="text-red-500">{error}</p>} {/* Muestra el error si existe */}
+              {error && <p className="text-red-500">{error}</p>}{' '}
               {successMessage && (
                 <p className="text-green-500">{successMessage}</p> // Muestra el mensaje de éxito si existe
               )}
@@ -96,17 +114,18 @@ const LoginPage: React.FC = () => {
                   type="submit"
                   className={`w-full bg-yellow-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 
                     ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-yellow-700'}`}
-                  disabled={loading} // Deshabilita el botón si está cargando
+                  disabled={loading}
                 >
-                  {loading ? 'Iniciando...' : 'Iniciar Sesión'} {/* Muestra un texto diferente si está cargando */}
+                  {loading ? 'Iniciando...' : 'Iniciar Sesión'}{' '}
                 </button>
               </div>
             </form>
           </div>
 
-          {/* Sección de otras opciones */}
           <div className="w-full md:w-1/2 mt-8 md:mt-0 pl-0 md:pl-8 border-t md:border-t-0 md:border-l border-gray-300 pt-8 md:pt-0">
-            <h2 className="text-2xl font-bold text-yellow-800 mb-6">Otras opciones</h2>
+            <h2 className="text-2xl font-bold text-yellow-800 mb-6">
+              Otras opciones
+            </h2>
             <div className="space-y-4">
               <button
                 className="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
@@ -118,13 +137,17 @@ const LoginPage: React.FC = () => {
                 className="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                 onClick={() => console.log('Iniciar sesión con Facebook')}
               >
-                <i className="fab fa-facebook mr-2"></i> Iniciar sesión con Facebook
+                <i className="fab fa-facebook mr-2"></i> Iniciar sesión con
+                Facebook
               </button>
             </div>
             <div className="mt-8 text-center">
               <p className="text-sm text-gray-600">
                 ¿No tienes una cuenta?
-                <a href="/registro" className="text-yellow-600 hover:text-yellow-800 font-semibold">
+                <a
+                  href="/registro"
+                  className="text-yellow-600 hover:text-yellow-800 font-semibold"
+                >
                   Regístrate aquí
                 </a>
               </p>

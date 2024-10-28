@@ -4,95 +4,135 @@ interface LogoutModalProps {
   isOpen: boolean;
   onClose: () => void;
   onLogout: () => Promise<void>;
-  logoutSuccess: boolean;
+  loggingOut: boolean;
+  error: string | null;
 }
 
 const LogoutModal: React.FC<LogoutModalProps> = ({
   isOpen,
   onClose,
   onLogout,
-  logoutSuccess,
+  loggingOut,
+  error,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleLogout = async () => {
-    setIsLoading(true);
-    await onLogout();
-    setIsLoading(false);
-  };
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   if (!isOpen) return null;
 
+  const handleConfirmLogout = () => {
+    setIsConfirmed(true);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await onLogout();
+      onClose();
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity">
-      <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-lg transform transition-all duration-300">
-        {logoutSuccess ? (
-          <div className="flex flex-col items-center justify-center">
-            <svg
-              className="w-16 h-16 text-green-500 animate-bounce"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m5 2a9 9 0 11-9-9 9 9 0 019 9z"
-              ></path>
-            </svg>
-            <h2 className="text-lg font-semibold text-green-600 mt-4">
-              ¡Sesión cerrada exitosamente!
-            </h2>
-          </div>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white rounded-lg p-6 w-80 text-center modal-fade-in">
+        {!isConfirmed ? (
+          <>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              ¿Quieres cerrar sesión?
+            </h3>
+            <p className="text-gray-600 mb-4">Confirma tu acción.</p>
+            <div className="flex justify-around">
+              <button
+                onClick={handleConfirmLogout}
+                className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
+              >
+                Sí
+              </button>
+              <button
+                onClick={onClose}
+                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors"
+              >
+                No
+              </button>
+            </div>
+          </>
         ) : (
-          <div>
-            <h2 className="text-lg font-semibold text-center mb-4">
-              ¿Seguro que deseas cerrar sesión?
-            </h2>
-            {isLoading ? (
-              <div className="flex justify-center mb-4">
-                <svg
-                  className="animate-spin h-8 w-8 text-blue-500"
-                  xmlns="http://www.w3.org/2000/svg"
+          <>
+            <div className="flex justify-center mb-4">
+              <svg className="w-16 h-16" viewBox="0 0 52 52">
+                <circle
+                  className="text-green-100"
+                  cx="26"
+                  cy="26"
+                  r="25"
                   fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.952 7.952 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </div>
-            ) : (
-              <div className="flex justify-between mt-4">
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200 focus:ring-4 focus:ring-red-300"
-                >
-                  Sí, cerrar sesión
-                </button>
-                <button
-                  onClick={onClose}
-                  className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition duration-200 focus:ring-4 focus:ring-gray-300"
-                >
-                  No, mantener sesión
-                </button>
-              </div>
-            )}
-          </div>
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path
+                  className="text-green-500 checkmark"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              ¡Sesión cerrada!
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Has cerrado sesión exitosamente.
+            </p>
+            <button
+              onClick={handleLogout}
+              className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
+              disabled={loggingOut}
+            >
+              {loggingOut ? 'Cerrando sesión...' : 'Aceptar'}
+            </button>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
+          </>
         )}
       </div>
+
+      <style>
+        {`
+          @keyframes checkmark {
+            0% {
+              stroke-dashoffset: 50;
+              opacity: 0;
+              transform: scale(0.8);
+            }
+            100% {
+              stroke-dashoffset: 0;
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
+
+          .checkmark {
+            stroke-dasharray: 50;
+            stroke-dashoffset: 50;
+            animation: checkmark 0.8s ease-in-out forwards;
+          }
+
+          .modal-fade-in {
+            animation: modalFade 0.5s ease-in-out forwards;
+          }
+
+          @keyframes modalFade {
+            from {
+              opacity: 0;
+              transform: translateY(-20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };

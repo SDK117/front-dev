@@ -1,14 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthService } from '../../application/services/AuthService';
 
-export const useLogout = (
-  onClose: () => void,
-  navigate: (path: string) => void,
-) => {
+export const useLogout = (onClose: () => void) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [logoutSuccess, setLogoutSuccess] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [logoutSuccess, setLogoutSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleLogoutConfirmed = () => {
     setIsModalOpen(true);
@@ -20,28 +19,29 @@ export const useLogout = (
     try {
       await authService.logout();
       setLogoutSuccess(true);
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+      navigate('/');
     } catch {
       setError('Error al cerrar sesión.');
     } finally {
       setLoggingOut(false);
+      onClose();
     }
   };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+    setLogoutSuccess(false);
+    setError(null);
     onClose();
   };
 
   return {
     isModalOpen,
-    logoutSuccess,
     handleLogoutConfirmed,
     handleLogout,
     handleModalClose,
     loggingOut,
     error,
+    logoutSuccess,
   };
 };

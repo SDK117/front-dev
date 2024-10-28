@@ -7,7 +7,7 @@ export class ProfileRepository implements IProfileRepository {
     try {
       const response = await axiosInstance.get('/profile');
       return response.data.data;
-    }catch (error) {
+    } catch (error) {
       console.error('Error al obtener el perfil desde el repositorio:', error);
       throw error;
     }

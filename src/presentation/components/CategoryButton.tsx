@@ -7,7 +7,11 @@ interface CategoryButtonProps {
   active: boolean;
 }
 
-const CategoryButton: React.FC<CategoryButtonProps> = ({ label, onClick, active }) => {
+const CategoryButton: React.FC<CategoryButtonProps> = ({
+  label,
+  onClick,
+  active,
+}) => {
   return (
     <motion.button
       onClick={onClick}
@@ -16,9 +20,9 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({ label, onClick, active 
       }`}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      initial={{ scale: 0.9 }} // Establece el tamaño inicial más pequeño para el efecto de zoom
-      animate={{ scale: 1 }} // Escala el tamaño a 1 para el efecto de zoom al aparecer
-      transition={{ duration: 0.5 }} // Duración del efecto de zoom
+      initial={{ scale: 0.9 }}
+      animate={{ scale: 1 }}
+      transition={{ duration: 0.5 }}
     >
       {label}
     </motion.button>

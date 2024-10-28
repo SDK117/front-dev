@@ -12,10 +12,26 @@ const Footer: React.FC = () => (
         <div className="w-full md:w-1/4 mb-6 md:mb-0">
           <h3 className="text-xl font-bold mb-4">Enlaces Rápidos</h3>
           <ul>
-            <li><Link to="/#" className="hover:text-yellow-200">Menú</Link></li>
-            <li><Link to="/#" className="hover:text-yellow-200">Promociones</Link></li>
-            <li><Link to="/#" className="hover:text-yellow-200">Ubicaciones</Link></li>
-            <li><Link to="/#" className="hover:text-yellow-200">Contacto</Link></li>
+            <li>
+              <Link to="/#" className="hover:text-yellow-200">
+                Menú
+              </Link>
+            </li>
+            <li>
+              <Link to="/#" className="hover:text-yellow-200">
+                Promociones
+              </Link>
+            </li>
+            <li>
+              <Link to="/#" className="hover:text-yellow-200">
+                Ubicaciones
+              </Link>
+            </li>
+            <li>
+              <Link to="/#" className="hover:text-yellow-200">
+                Contacto
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="w-full md:w-1/4 mb-6 md:mb-0">
@@ -26,9 +42,15 @@ const Footer: React.FC = () => (
         <div className="w-full md:w-1/4">
           <h3 className="text-xl font-bold mb-4">Síguenos</h3>
           <div className="flex space-x-4">
-            <a href="#" className="hover:text-yellow-200">Facebook</a>
-            <a href="#" className="hover:text-yellow-200">Instagram</a>
-            <a href="#" className="hover:text-yellow-200">Twitter</a>
+            <a href="#" className="hover:text-yellow-200">
+              Facebook
+            </a>
+            <a href="#" className="hover:text-yellow-200">
+              Instagram
+            </a>
+            <a href="#" className="hover:text-yellow-200">
+              Twitter
+            </a>
           </div>
         </div>
       </div>

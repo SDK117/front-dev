@@ -3,16 +3,22 @@ import React from 'react';
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
-  className?: string; // Asegúrate de agregar esta propiedad opcional
+  className?: string;
 }
 
-const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, className }) => {
+const SearchModal: React.FC<SearchModalProps> = ({
+  isOpen,
+  onClose,
+  className,
+}) => {
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center transition-opacity duration-300 ${className} ${
-        isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        isOpen
+          ? 'opacity-100 pointer-events-auto'
+          : 'opacity-0 pointer-events-none'
       }`}
-      style={{ zIndex: 60 }} // Asegúrate de que el modal esté por encima del overlay y el sidebar
+      style={{ zIndex: 60 }}
     >
       {/* Overlay */}
       <div
@@ -23,7 +29,6 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, className })
         style={{ zIndex: 50 }}
       ></div>
 
-      {/* Modal Content */}
       <div
         className={`bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg overflow-y-auto transition-transform duration-300 ${
           isOpen ? 'transform scale-100' : 'transform scale-90'
@@ -31,7 +36,6 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, className })
         style={{ zIndex: 60 }}
       >
         <div className="py-4 px-6">
-          {/* Header */}
           <div className="flex justify-between items-center pb-3">
             <p className="text-2xl font-bold text-yellow-700">Buscar</p>
             <button onClick={onClose} className="text-black">
@@ -52,7 +56,6 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, className })
             </button>
           </div>
 
-          {/* Search Input */}
           <input
             type="text"
             placeholder="¿Qué estás buscando?"

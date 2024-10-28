@@ -3,7 +3,7 @@ import Register from '../components/Register.tsx';
 
 const RegisterPage: React.FC = () => (
   <div>
-    <Register/>
+    <Register />
   </div>
 );
 

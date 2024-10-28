@@ -1,13 +1,13 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
-// import './MainLayout.css'; // Asegúrate de que la ruta es correcta
 
-const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const MainLayout: React.FC = () => (
   <div className="relative flex flex-col min-h-screen">
     <Navbar />
-    <main className="flex-1 relative"> {/* Asegura que sea relativo para controlar elementos dentro */}
-      {children}
+    <main className="flex-1 relative">
+      <Outlet />
     </main>
     <Footer />
   </div>
