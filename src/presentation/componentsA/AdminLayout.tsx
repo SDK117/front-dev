@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 import Footer from '../components/Footer';
 import { Outlet } from 'react-router-dom';
 
-const MainLayoutU: React.FC = () => {
+const AdminLayout: React.FC = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const toggleSidebar = () => {
@@ -21,17 +21,13 @@ const MainLayoutU: React.FC = () => {
       >
         <Navbar toggleSidebar={toggleSidebar} />
 
-        <main className="flex-1 p-4 transition-all duration-300">
-          <h1 className="text-2xl font-bold text-yellow-600">
-            Bienvenido a Pollería Hilda A
-          </h1>
+        <main className="flex-1 p-4">
           <Outlet />
         </main>
-
         <Footer />
       </div>
     </div>
   );
 };
 
-export default MainLayoutU;
+export default AdminLayout;

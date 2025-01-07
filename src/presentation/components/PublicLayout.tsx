@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-const MainLayout: React.FC = () => (
+const PublicLayout: React.FC = () => (
   <div className="relative flex flex-col min-h-screen">
     <Navbar />
     <main className="flex-1 relative">
@@ -13,4 +13,4 @@ const MainLayout: React.FC = () => (
   </div>
 );
 
-export default MainLayout;
+export default PublicLayout;

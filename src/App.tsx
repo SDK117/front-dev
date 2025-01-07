@@ -1,39 +1,31 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MainLayout from './presentation/components/MainLayout';
-import MainLayoutU from './presentation/./componentsA/MainLayoutU.tsx';
-import LoginPage from './presentation/pages/LoginPage';
-import MenuPage from './presentation/pages/MenuPage.tsx';
-import PromotionsPage from './presentation/pages/PromotionsPage.tsx';
-import LocationsPage from './presentation/pages/LocationsPage.tsx';
-import ContactPage from './presentation/pages/ContactPage.tsx';
-import HeroSection from './presentation/components/HeroSection.tsx';
-import RegisterPage from './presentation/pages/RegisterPage.tsx';
-import MainContentUser from './presentation/pages/MainContentUser.tsx';
-import MainContent from './presentation/pages/MainContent.tsx';
+
+// Layouts
+import PublicLayout from './presentation/components/PublicLayout';
+import AdminLayout from './presentation/componentsA/AdminLayout';
+
+// Páginas públicas
+import LoginPage from './presentation/pages/publicPages/LoginPage.tsx';
+import MenuPage from './presentation/pages/publicPages/MenuPage.tsx';
+import PromotionsPage from './presentation/pages/publicPages/PromotionsPage.tsx';
+import LocationsPage from './presentation/pages/publicPages/LocationsPage.tsx';
+import ContactPage from './presentation/pages/publicPages/ContactPage.tsx';
+import HeroSection from './presentation/components/HeroSection';
+import RegisterPage from './presentation/pages/publicPages/RegisterPage.tsx';
+
+// Páginas privadas
+import AdminContent from './presentation/pages/adminpages/AdminContent.tsx';
+import PublicContent from './presentation/pages/publicPages/PublicContent.tsx';
 
 
 const App: React.FC = () => (
   <Router>
     <Routes>
-      <Route element={<MainLayout />}>
-        <Route
-          path="/"
-          element={
-            <>
-              <HeroSection />
-              <MainContent />
-            </>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <>
-              <LoginPage />
-            </>
-          }
-        />
+      {/* Rutas públicas */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<><HeroSection /><PublicContent /></>} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/promotions" element={<PromotionsPage />} />
         <Route path="/locations" element={<LocationsPage />} />
@@ -41,10 +33,11 @@ const App: React.FC = () => (
         <Route path="/register" element={<RegisterPage />} />
       </Route>
 
-      {/* Rutas para el layout de usuario */}
-      <Route element={<MainLayoutU />}>
-        <Route path="/dashboard/admin" element={<MainContentUser />} />
-        <Route path="/dashboard/user" element={<MainContentUser />} />
+      {/* Rutas privadas (solo accesibles por el admin) */}
+      <Route element={<AdminLayout />}>
+        <Route path="/AdminContent" element={<AdminContent />} />
+
+
       </Route>
     </Routes>
   </Router>

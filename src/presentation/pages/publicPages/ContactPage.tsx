@@ -1,5 +1,5 @@
 import React from 'react';
-import ContactForm from '../components/ContactForm.tsx';
+import ContactForm from '../../components/ContactForm.tsx';
 
 const ContactPage: React.FC = () => (
   <div>
