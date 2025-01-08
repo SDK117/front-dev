@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AdminContent: React.FC = () => {
+const AdminPanel: React.FC = () => {
   return (
     <div className="dashboard-container">
       <h1>Bienvenido al Dashboard de Usuario (Admin)</h1>
@@ -8,4 +8,4 @@ const AdminContent: React.FC = () => {
   );
 };
 
-export default AdminContent;
+export default AdminPanel;

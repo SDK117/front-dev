@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import MenuItem from '../components/MenuItem';
-import CategoryButton from '../components/CategoryButton';
+import MenuItem from './MenuItem.tsx';
+import CategoryButton from './CategoryButton.tsx';
 import { motion } from 'framer-motion';
 
 const Menu: React.FC = () => {

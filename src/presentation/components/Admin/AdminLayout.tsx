@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Navbar from './Navbar';
-import Sidebar from './Sidebar';
-import Footer from '../components/Footer';
+import Navbar from './Navbar.tsx';
+import Sidebar from './Sidebar.tsx';
+import Footer from '../public/Footer.tsx';
 import { Outlet } from 'react-router-dom';
 
 const AdminLayout: React.FC = () => {

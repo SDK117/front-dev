@@ -5,21 +5,23 @@ import {
   faBell,
   faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
-import UserProfile from '../components/UserProfile';
-import LogoutModal from '../components/LogoutModal';
-import { useLogout } from '../hooks/useLogout';
+import UserProfile from './UserProfile.tsx';
+//import LogoutModal from './LogoutModal.tsx';
+//import { useLogout } from '../../hooks/useLogout.ts'; // Comenta esta línea para evitar el error
 
 const Navbar: React.FC<{ toggleSidebar: () => void }> = ({ toggleSidebar }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
-  const {
-    isModalOpen,
-    handleLogoutConfirmed,
-    handleLogout,
-    handleModalClose,
-    loggingOut,
-    error,
-  } = useLogout(() => setDropdownOpen(false));
+
+  // Comenta los fragmentos relacionados con useLogout
+  // const {
+  //   isModalOpen,
+  //   handleLogoutConfirmed,
+  //   handleLogout,
+  //   handleModalClose,
+  //   loggingOut,
+  //   error,
+  // } = useLogout(() => setDropdownOpen(false));
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -86,7 +88,7 @@ const Navbar: React.FC<{ toggleSidebar: () => void }> = ({ toggleSidebar }) => {
                   <a
                     href="#"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-100"
-                    onClick={handleLogoutConfirmed}
+                    // onClick={handleLogoutConfirmed} // Comenta esta línea por ahora
                   >
                     Cerrar Sesión
                   </a>
@@ -99,13 +101,14 @@ const Navbar: React.FC<{ toggleSidebar: () => void }> = ({ toggleSidebar }) => {
 
       {showUserProfile && <UserProfile onClose={closeUserProfile} />}
 
-      <LogoutModal
+      {/* Comenta el LogoutModal por ahora */}
+      {/* <LogoutModal
         isOpen={isModalOpen}
         onClose={handleModalClose}
         onLogout={handleLogout}
         loggingOut={loggingOut}
         error={error}
-      />
+      /> */}
     </nav>
   );
 };

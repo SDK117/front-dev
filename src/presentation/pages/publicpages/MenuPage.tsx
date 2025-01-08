@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from '../../components/Menu.tsx';
+import Menu from '../../components/public/Menu.tsx';
 
 const MenuPage: React.FC = () => (
   <>

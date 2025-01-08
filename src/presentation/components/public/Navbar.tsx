@@ -1,7 +1,7 @@
 import React, { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
-import Sidebar from './Sidebar';
-import SearchModal from './SearchModal';
+import Sidebar from './Sidebar.tsx';
+import SearchModal from './SearchModal.tsx';
 
 const MemoizedSidebar = memo(Sidebar);
 const MemoizedSearchModal = memo(SearchModal);

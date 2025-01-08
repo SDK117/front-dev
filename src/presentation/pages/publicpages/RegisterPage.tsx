@@ -1,5 +1,5 @@
 import React from 'react';
-import Register from '../../components/Register.tsx';
+import Register from '../../components/public/Register.tsx';
 
 const RegisterPage: React.FC = () => (
   <div>

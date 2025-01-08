@@ -1,46 +1,74 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-// Layouts
-import PublicLayout from './presentation/components/PublicLayout';
-import AdminLayout from './presentation/componentsA/AdminLayout';
+// Componentes y Layouts
+import PublicLayout from './presentation/components/public/PublicLayout.tsx';
+import AdminLayout from './presentation/components/Admin/AdminLayout';
+import ClienteLayout from './presentation/components/Client/ClienteLayout';
 
-// Páginas públicas
-import LoginPage from './presentation/pages/publicPages/LoginPage.tsx';
-import MenuPage from './presentation/pages/publicPages/MenuPage.tsx';
-import PromotionsPage from './presentation/pages/publicPages/PromotionsPage.tsx';
-import LocationsPage from './presentation/pages/publicPages/LocationsPage.tsx';
-import ContactPage from './presentation/pages/publicPages/ContactPage.tsx';
-import HeroSection from './presentation/components/HeroSection';
-import RegisterPage from './presentation/pages/publicPages/RegisterPage.tsx';
+// Páginas
+import LoginPage from './presentation/pages/publicpages/LoginPage.tsx';
+import MenuPage from './presentation/pages/publicpages/MenuPage.tsx';
+import PromotionsPage from './presentation/pages/publicpages/PromotionsPage.tsx';
+import LocationsPage from './presentation/pages/publicpages/LocationsPage.tsx';
+import ContactPage from './presentation/pages/publicpages/ContactPage.tsx';
+import HeroSection from './presentation/components/public/HeroSection.tsx';
+import RegisterPage from './presentation/pages/publicpages/RegisterPage.tsx';
+import AdminPanel from './presentation/pages/adminpages/AdminPanel.tsx';
+import ClientePanel from './presentation/pages/clientpages/ClientePanel.tsx';
+import PublicContent from './presentation/pages/publicpages/PublicContent.tsx';
 
-// Páginas privadas
-import AdminContent from './presentation/pages/adminpages/AdminContent.tsx';
-import PublicContent from './presentation/pages/publicPages/PublicContent.tsx';
+// Hook de autenticación
+const useAuth = () => {
+  const [role, setRole] = useState<string | null>(localStorage.getItem('role'));
 
+  useEffect(() => {
+    const storedRole = localStorage.getItem('role');
+    if (storedRole && storedRole !== role) {
+      setRole(storedRole);
+    }
+  }, [role]);
 
-const App: React.FC = () => (
-  <Router>
-    <Routes>
-      {/* Rutas públicas */}
-      <Route element={<PublicLayout />}>
-        <Route path="/" element={<><HeroSection /><PublicContent /></>} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/menu" element={<MenuPage />} />
-        <Route path="/promotions" element={<PromotionsPage />} />
-        <Route path="/locations" element={<LocationsPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Route>
+  return role;
+};
 
-      {/* Rutas privadas (solo accesibles por el admin) */}
-      <Route element={<AdminLayout />}>
-        <Route path="/AdminContent" element={<AdminContent />} />
+const App: React.FC = () => {
+  const role = useAuth();
 
+  return (
+    // Asegúrate de que Router envuelva el código que utiliza <Navigate />
+    <Router>
+      <Routes>
+        {/* Rutas públicas */}
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<><HeroSection /><PublicContent /></>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/menu" element={<MenuPage />} />
+          <Route path="/promotions" element={<PromotionsPage />} />
+          <Route path="/locations" element={<LocationsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
 
-      </Route>
-    </Routes>
-  </Router>
-);
+        {/* Rutas privadas (solo accesibles por el admin) */}
+        {role === 'admin' && (
+          <Route element={<AdminLayout />}>
+            <Route path="/admin-panel" element={<AdminPanel />} />
+          </Route>
+        )}
+
+        {/* Rutas privadas (solo accesibles por el cliente) */}
+        {role === 'cliente' && (
+          <Route element={<ClienteLayout />}>
+            <Route path="/cliente-panel" element={<ClientePanel />} />
+          </Route>
+        )}
+
+        {/* Si no hay rol, redirige al login */}
+        {role === null && <Route path="*" element={<Navigate to="/login" />} />}
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;
